@@ -1,0 +1,2 @@
+WYJSCIE = 'X'
+INTRUKCJA_WYJSCIE = '[X] - wyjdz'
