@@ -1,3 +1,3 @@
-# MOJA ZAJEBISGTA APLIKACJA
+# MOJA APLIKACJA
 
-## balzejs
+## Blazej K
