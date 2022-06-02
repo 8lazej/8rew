@@ -4,7 +4,7 @@ import Slod
 WYBOR_EKSTRAKT = 's'
 WYBOR_WODA = 'w'
 
-def pokaz_polecenie(parametryWarzenia):
+def pokaz_polecenie(setBLG, set_litry_piwa, nadpisz_liste_slodow, litry_piwa):
     lista_sumy_slodow = []
 
     while True:
@@ -13,9 +13,9 @@ def pokaz_polecenie(parametryWarzenia):
         print(utils.INTRUKCJA_WYJSCIE)
         wybor_procesu_zacierania = input()
         if wybor_procesu_zacierania == WYBOR_EKSTRAKT:
-            zbierz_i_policz_ekstrakt(parametryWarzenia)
+            zbierz_i_policz_ekstrakt(setBLG, set_litry_piwa, nadpisz_liste_slodow, lista_sumy_slodow)
         elif wybor_procesu_zacierania == WYBOR_WODA:
-            zbierz_i_policz_wode(parametryWarzenia)
+            zbierz_i_policz_wode(setBLG, set_litry_piwa, lista_sumy_slodow, litry_piwa)
         elif wybor_procesu_zacierania == utils.WYJSCIE:
             break
 
@@ -24,14 +24,14 @@ def pokaz_polecenie(parametryWarzenia):
 def get_float_input():
     return float(input())
 
-def zbierz_i_policz_ekstrakt(parametryWarzenia):
+def zbierz_i_policz_ekstrakt(setBLG, set_litry_piwa, nadpisz_liste_slodow, lista_slodow):
     print('Podaj BLG')
     blg = get_float_input()
-    parametryWarzenia.setBlg(blg)
+    setBLG(blg)
 
     print('Podaj ilość piwa w litrach')
     litry_piwa = get_float_input()
-    parametryWarzenia.setLitryPiwa(litry_piwa)
+    set_litry_piwa(litry_piwa)
 
     print('Ekstrakt wynosi:')
     ekstrakt = policz_ekstrakt(blg, litry_piwa)
@@ -55,7 +55,7 @@ def zbierz_i_policz_ekstrakt(parametryWarzenia):
     lista_udzialow = list(map(lambda slod: slod.procent_w_zasypie, nowa_lista_slodow))
     # print(">>>>>>>", list(lista_udzialow))
     suma_udzialow = sum(lista_udzialow)
-    parametryWarzenia.setListaSlodow(nowa_lista_slodow)
+    nadpisz_liste_slodow(nowa_lista_slodow)
 
     if (suma_udzialow < 99):
         raise Exception("Suma udzialow powinna byc wieksza niz 99 %")
@@ -63,32 +63,33 @@ def zbierz_i_policz_ekstrakt(parametryWarzenia):
     print('Suma rzeczywostych ekstraktow slodow wynosi:')
     suma_RES = policz_sume_rzeczyswistych_ekstraktow_slodow(nowa_lista_slodow)
     print(suma_RES)
-
     print('Suma zasypu w kg wynosi:')
     suma_zasypu = ekstrakt/suma_RES
-    parametryWarzenia.setSumaZasypu(suma_zasypu)
     print(suma_zasypu)
-
     print('Slod nr x dodaj w ilosci:')
     lista_kazdego_slodu_w_kg = list(map(lambda udzial: udzial / 100 * suma_zasypu, lista_udzialow))
+
+    for slod_w_kg in lista_kazdego_slodu_w_kg:
+        lista_slodow.append(slod_w_kg)
 
     # print(lista_kazdego_slodu_w_kg)
     for (index, item) in enumerate(lista_kazdego_slodu_w_kg):
         print(f'Slod #{index + 1}, {item}')
 
-def zbierz_i_policz_wode(parametryWarzenia):
+def zbierz_i_policz_wode(setBLG, set_litry_piwa, lista_sumy_slodow, litry_piwa):
     print('Podaj wspolczynnik 1 kg slodu do x l wody')
     wspolczynnik_slod_woda = get_float_input()
     print('Woda potrzebna do zacierania w litrach:')
-    suma_listy_slodow = parametryWarzenia.getSumaZasypu() 
+    suma_listy_slodow = sum(lista_sumy_slodow)
     woda_do_zacierania = suma_listy_slodow * wspolczynnik_slod_woda
     print(woda_do_zacierania)
     print('Woda potrzebna do wysładzania w litrach')
-    woda_do_wysladzania = policz_sume_wody_do_wysladzania(parametryWarzenia.getLitryPiwa(), suma_listy_slodow, woda_do_zacierania)
+    woda_do_wysladzania = policz_sume_wody_do_wysladzania(litry_piwa, suma_listy_slodow, woda_do_zacierania)
     print(woda_do_wysladzania)
-    print('Woda do calego prcoesu:')
-    woda_calosc = woda_do_zacierania + woda_do_wysladzania
-    print(woda_calosc)
+
+
+
+    print(sum(lista_sumy_slodow))
 
 def policz_ekstrakt(BLG, litry_piwa):
     brzeczka_po_warzeniu_przed_cedzeniem = litry_piwa * 1.1
@@ -112,4 +113,4 @@ def policz_sume_wody_do_wysladzania(litryPiwa, suma_listy_slodow, woda_do_zacier
     straty_chmiel_gestwa = litryPiwa * 0.1
     woda_do_uzupelnienia = litryPiwa - woda_do_zacierania
     print(woda_pozotala_w_mlocie, woda_odparowana_przy_chmieleniu, straty_chmiel_gestwa, woda_do_uzupelnienia, sep="----")
-    return woda_pozotala_w_mlocie + woda_odparowana_przy_chmieleniu + straty_chmiel_gestwa + woda_do_uzupelnienia
+    # return woda_pozotala_w_mlocie + woda_odparowana_przy_chmieleniu + straty_chmiel_gestwa + woda_do_uzupelnienia
