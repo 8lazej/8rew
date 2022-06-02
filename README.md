@@ -1,0 +1,3 @@
+# MOJA ZAJEBISGTA APLIKACJA
+
+## balzejs
