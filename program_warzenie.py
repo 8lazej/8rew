@@ -27,7 +27,7 @@ while True:
     print('[10] - Pokaz podsumowanie')
     wybor = input()
     if wybor == '1':
-        procesZacieranie.pokaz_polecenie(setBLG, set_litry_piwa, nadpisz_liste_slodow)
+        procesZacieranie.pokaz_polecenie(setBLG, set_litry_piwa, nadpisz_liste_slodow, LITRY_PIWA)
     elif wybor == '2':
         pass
     elif wybor == '3':
