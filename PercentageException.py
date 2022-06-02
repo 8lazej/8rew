@@ -1,0 +1,2 @@
+class PercentageException(Exception):
+    pass
