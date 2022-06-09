@@ -1,7 +1,11 @@
 import ParametryWarzenia
 import program_warzenie
 from utils import FILE_NAME, FILE_SEPARATOR, ID_COLUMN_NAME
+import os
 
+if not os.path.exists(FILE_NAME):
+    open(FILE_NAME, 'w').close()
+    
 print('Witaj w 8rew!\n \
     Jest to program wspomagający zarządzanie procesami biochemicznymi w procesie produkcji piwa domowego\n \
     Aby poruszać się po programie, w konsoli terminala wpisz znak znajdujący się w nawiasie kwadratowym [] \n \

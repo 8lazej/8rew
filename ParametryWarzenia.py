@@ -7,14 +7,32 @@ class ParametryWarzenia:
     @classmethod
     def fromRow(self, row):
         # 'ID;BLG;LITRYPIWA;RBPF'
-        splitRow = row.strip().split(FILE_SEPARATOR) # [ID, BLG, ...]
-        return ParametryWarzenia(splitRow[0], toFloatIfExists(splitRow[1]), toFloatIfExists(splitRow[2]), toFloatIfExists(splitRow[3]))
+        splitRow = row.strip().split(FILE_SEPARATOR) # [ID, BLG, ...],strip -  pozbywa sie \n np. znakow, a split dzieli po separatorze
+        return ParametryWarzenia(
+            splitRow[0], 
+            toFloatIfExists(splitRow[1]), 
+            toFloatIfExists(splitRow[2]), 
+            toFloatIfExists(splitRow[3]),
+            toFloatIfExists(splitRow[4]),
+            toFloatIfExists(splitRow[5])
+            )
     
-    def __init__(self, id, blg=None, litryPiwa=None, rbpf=None):
+    def __init__(
+            self, 
+            id, 
+            blg=None, 
+            litryPiwa=None, 
+            rzeczywisteBLGprzedFermentacja=None, 
+            BLGpoFermentacji=None, 
+            ibu=None
+            ):
         self.blg = blg
         self.litryPiwa = litryPiwa #definiujemy jak pola beda sie nazywaly
-        self.rbpf = rbpf
+        self.rzeczywisteBLGprzedFermentacja = rzeczywisteBLGprzedFermentacja
+        self.BLGpoFermentacji = BLGpoFermentacji
         self.id = id
+        self.ibu = ibu
+        
 
     def setBlg(self, blg):
         self.blg = blg
@@ -46,9 +64,12 @@ class ParametryWarzenia:
         
 
     def convertParametryWarzeniaToRow(self):
-        listOfProperties = [self.id, self.blg, self.litryPiwa, self.rbpf]
+        listOfProperties = [self.id, self.blg, self.litryPiwa, self.rzeczywisteBLGprzedFermentacja, self.BLGpoFermentacji, self.ibu]
         listOfPropsWithEmptySpaceInsteadOfNone = map(lambda prop: NULL_DATA if prop is None else prop, listOfProperties)
         return ';'.join(map(lambda prop: str(prop), listOfPropsWithEmptySpaceInsteadOfNone)) + '\n'
+
+    def getListOfHeaders(self):
+        return [ID_COLUMN_NAME, 'BLG','Litry_piwa','BLGprzedFermentacja', 'BLGpoFermentacji', 'IBU']
         
     def saveToFile(self):
         hasBeenUpdated = False
@@ -59,7 +80,7 @@ class ParametryWarzenia:
             # print('tu linie',lines)
         with open(FILE_NAME, 'w') as file:
             if lines == []:
-                file.write(FILE_SEPARATOR.join([ID_COLUMN_NAME, 'BLG','Litry_piwa','rbpf\n']))
+                file.write(FILE_SEPARATOR.join(self.getListOfHeaders()) + '\n')
             for line in lines:
                 if (line.split(FILE_SEPARATOR)[0] == self.id):
                     file.write(self.convertParametryWarzeniaToRow())

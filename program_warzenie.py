@@ -1,5 +1,6 @@
 import procesZacieranie 
 import procesChmielenie
+import procesFermentacja
 import utils
 from utils import get_float_input
 import podsumowanie
@@ -21,8 +22,7 @@ def obsluzParametryWarzenia(parametryWarzenia):
         elif wybor == '2':
             procesChmielenie.zbierz_i_policz_chmiele(parametryWarzenia)
         elif wybor == '3':
-            pass
-            # procesFermentacja.zbierz_i_policz_alkohol(parametryWarzenia)
+            procesFermentacja.zbierz_i_policz_alkohol(parametryWarzenia)
         elif wybor == '10':
             podsumowanie.pokaz_podsumowanie(parametryWarzenia)
         elif wybor == utils.WYJSCIE:

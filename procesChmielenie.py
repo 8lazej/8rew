@@ -27,7 +27,12 @@ def zbierz_i_policz_chmiele(parametryWarzenia):
         
     parametryWarzenia.chmiele = nowa_lista_chmieli
     ibu = obliczIBU(nowa_lista_chmieli, parametryWarzenia)
+    print('IBU wynosi:')
     print(ibu)
+    print('Po chmieleniu zmierz rzeczywiste BLG przed fermentacją i je podaj:')
+    rzeczywiste_blg_przed_fermentacja = get_float_input()
+    parametryWarzenia.rzeczywisteBLGprzedFermentacja = rzeczywiste_blg_przed_fermentacja
+    parametryWarzenia.ibu = ibu
 
 
 def oblicz_wykorzystanie(czas):
