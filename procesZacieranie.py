@@ -1,15 +1,16 @@
+from ParametryWarzenia import ParametryWarzenia
 import utils
+from utils import get_float_input
 import Slod
 
 WYBOR_EKSTRAKT = 's'
 WYBOR_WODA = 'w'
 
 def pokaz_polecenie(parametryWarzenia):
-    lista_sumy_slodow = []
 
     while True:
-        print(f"[{WYBOR_EKSTRAKT}] - Oblicz ilość potrzebnych słodów")
-        print(f"[{WYBOR_WODA}] - Oblicz ilość potrzebnej wody")
+        print(f'[{WYBOR_EKSTRAKT}] - Oblicz ilosc potrzebnych slodow')
+        print(f'[{WYBOR_WODA}] - Oblicz ilosc potrzebnej wody')
         print(utils.INTRUKCJA_WYJSCIE)
         wybor_procesu_zacierania = input()
         if wybor_procesu_zacierania == WYBOR_EKSTRAKT:
@@ -19,22 +20,17 @@ def pokaz_polecenie(parametryWarzenia):
         elif wybor_procesu_zacierania == utils.WYJSCIE:
             break
 
-
-
-def get_float_input():
-    return float(input())
-
 def zbierz_i_policz_ekstrakt(parametryWarzenia):
-    print('Podaj BLG')
-    blg = get_float_input()
-    parametryWarzenia.setBlg(blg)
+    # print('Podaj BLG')
+    # blg = get_float_input()
+    # parametryWarzenia.setBlg(blg)
 
-    print('Podaj ilość piwa w litrach')
-    litry_piwa = get_float_input()
-    parametryWarzenia.setLitryPiwa(litry_piwa)
+    # print('Podaj ilosc piwa w litrach')
+    # litry_piwa = get_float_input()
+    # parametryWarzenia.setLitryPiwa(litry_piwa)
 
     print('Ekstrakt wynosi:')
-    ekstrakt = policz_ekstrakt(blg, litry_piwa)
+    ekstrakt = policz_ekstrakt(parametryWarzenia.blg, parametryWarzenia.litryPiwa)
     print(ekstrakt)
 
     print('Podaj ilosc slodow')
@@ -42,7 +38,7 @@ def zbierz_i_policz_ekstrakt(parametryWarzenia):
 
     nowa_lista_slodow = []
     for i in range(ilosc_slodow):
-        print(f'Podaj ekstraktywnosc slodu {i+1}')
+        print('Podaj ekstraktywnosc slodu' + str(i+1))
         ekstraktywnosc_slodu = get_float_input()
         
         print('Podaj procent w zasypie')
@@ -72,9 +68,10 @@ def zbierz_i_policz_ekstrakt(parametryWarzenia):
     print('Slod nr x dodaj w ilosci:')
     lista_kazdego_slodu_w_kg = list(map(lambda udzial: udzial / 100 * suma_zasypu, lista_udzialow))
 
-    # print(lista_kazdego_slodu_w_kg)
+    print(lista_kazdego_slodu_w_kg)
     for (index, item) in enumerate(lista_kazdego_slodu_w_kg):
         print(f'Slod #{index + 1}, {item}')
+       # print("slod xxx")
 
 def zbierz_i_policz_wode(parametryWarzenia):
     print('Podaj wspolczynnik 1 kg slodu do x l wody')
@@ -83,7 +80,7 @@ def zbierz_i_policz_wode(parametryWarzenia):
     suma_listy_slodow = parametryWarzenia.getSumaZasypu() 
     woda_do_zacierania = suma_listy_slodow * wspolczynnik_slod_woda
     print(woda_do_zacierania)
-    print('Woda potrzebna do wysładzania w litrach')
+    print('Woda potrzebna do wysladzania w litrach')
     woda_do_wysladzania = policz_sume_wody_do_wysladzania(parametryWarzenia.getLitryPiwa(), suma_listy_slodow, woda_do_zacierania)
     print(woda_do_wysladzania)
     print('Woda do calego prcoesu:')
@@ -111,5 +108,4 @@ def policz_sume_wody_do_wysladzania(litryPiwa, suma_listy_slodow, woda_do_zacier
     woda_odparowana_przy_chmieleniu = litryPiwa * 0.15
     straty_chmiel_gestwa = litryPiwa * 0.1
     woda_do_uzupelnienia = litryPiwa - woda_do_zacierania
-    print(woda_pozotala_w_mlocie, woda_odparowana_przy_chmieleniu, straty_chmiel_gestwa, woda_do_uzupelnienia, sep="----")
     return woda_pozotala_w_mlocie + woda_odparowana_przy_chmieleniu + straty_chmiel_gestwa + woda_do_uzupelnienia

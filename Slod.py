@@ -10,6 +10,6 @@ class Slod:
         self.procent_w_zasypie = procent_w_zasypie
 
     def __str__(self):
-        return "{procent ekstraktywnosci " + str(self.procent_ekstraktywnosci) + " procent slodu w zasypie " + str(self.procent_w_zasypie) + "}"
+        return f"procent ekstraktywnosci  {self.procent_ekstraktywnosci}, procent slodu w zasypie {self.procent_w_zasypie}"
 
     
