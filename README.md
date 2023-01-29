@@ -1,3 +1,3 @@
-# MOJA APLIKACJA
+# Program
 
-## Blazej K
+## Blazej
